@@ -1,0 +1,123 @@
+public clas Array{
+    private int[] data;
+    private size;
+    
+    public Array(int capacity){
+        data = new int[capacity];
+        size = 0;
+    }
+    
+    public Array(){
+        this(10);
+    }
+	
+	public int getSize(){
+		return size;
+	}
+	
+	public int getCapacity(){
+		return data.length;
+	}
+	
+	public boolean isEmpty(){
+		return size == 0;
+	}
+	
+	public void add(int index,int e){
+		if(size == data.length){
+			//throw new IllegalArgumentException("Add failed.The array is full");
+			resize(2 * data.lenght);
+		}
+		
+		if(index > size || index < 0){
+			throw new IllegalArgumnetException("Add failed.The idnex is illegal");
+		}
+		
+		for(int i = size - 1 ; i >= index ; i ++){
+			data[i + 1] = data[i];
+		}
+		data[index] = e;
+		size ++;
+	}
+	
+	public void addFist(int e){
+		add(0, e);
+	}
+	
+	public void addLast(int e){
+		add(size,e);
+	}
+	
+	public int remove(int index){
+		if(index < 0 || index >=size){
+			throw new IllegalArgumentException("Remove failed,index illegal");
+		}
+		int ret = data[index];
+		for(int i = index + 1 ; i < size ; i ++){
+			data[i-1] = data[i];
+		}
+		data[size] = null;
+		size --;
+		if(size == data.length / 4 && data.length != 0){
+			resize(data.length / 2);
+		}
+		
+		return ret;
+	}
+	
+	public int removeFist(){
+		return remove(0);	
+	}
+	
+	public int removeLast(){
+		return remove(size - 1);
+	}
+	
+	public int find(int e){
+		for(int i = 0 ; i < size ; i ++){
+			if(data[[i] ==e){
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	public void removeElement(int e){
+		int index = find(e);
+		if(index != -1){
+			remove(index);
+		}
+	}
+	
+	public boolean contains(int e){
+		for(int i = 0 ; i < size ; i ++){
+			if(data[i] == e){
+				return ture;
+			}
+		}
+		return false;
+	}
+	
+	public int get(int index){
+		if(index < 0 || index >= size){
+			throw new IllegalArgumentException("Get failed.Illegal index");
+		}
+		return data[index];
+	}
+	
+	public void set(int index,int e){
+		if(index >=size || index < 0){
+			throw new IllegalArgumnetException("Set failed.Index is Illegal");
+		}
+		data[index] = e;
+	}
+		
+	//创建resize函数，使得数组实现动态的增长和缩容
+	private void resize(int newCapacity){
+		int[] newData = new int[newCapacity];
+		for(int i = 0 ; i < size ; i ++){
+			newData[i] = data[i];
+		}
+		data = newData;
+	}
+}
