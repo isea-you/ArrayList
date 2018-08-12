@@ -1,0 +1,109 @@
+public class Array{
+	private int[] data;
+	private int size;
+	
+	//带参数的构造函数，设置数组的容量
+	public Array(int capacity){
+		data = new int[capacity];
+		size = 0;
+	}
+	//无参的构造方法，默认数组的容量是10
+	public Array(){
+		this(10);
+	}
+
+	//获取数组中元素的个数
+	public int getSize(){
+		return size;
+	}
+	
+	//获取数组的容量的大小
+	public int getCapacity(){
+		return data.length;
+	}
+	
+	//获取数组是不是为空
+	public boolean isEmpty(){
+		return size == 0;
+	}
+	
+	//向数组的任意一个index位置添加元素
+	public void add(int index,int e){
+		if(index < 0 || index > size ){
+			throw new IllegalArgumentException("Add fail require index  > 0 && index <= size");	
+		}
+		
+		if(size == data.length){
+			throw new IllegalArgumentException("Add failed. Array has full!");
+		}
+		
+		for(int i = size ;i > index ; i--){
+			data[i] = data[i - 1];
+		}
+		data[index] = e;
+		size ++;
+	}
+	
+	// 向数组的起始位置添加元素
+	public void addFirst(int e){
+		add(0,e);
+	}
+	
+	//向数组的末尾添加元素
+	public void addLast(int e){
+		add(size,e);
+	}
+	
+	//删除数组index位置的元素,并将删除的元素返回回去
+	public int remove(inde index){
+		if(index >= size || index < 0){
+			throw new Exception("Remove failed.Index is illegal");		
+		}
+		int ret = data[index];
+		for(int i = index + 1 ; i < size ; i ++){
+			data[i - 1] = data[i]; 	
+		}
+		size --;
+		data[size] = null;
+		
+		return ret;
+	}
+	
+	//删除数组第一个元素,并返回删除的元素
+	public int removeFirst(){
+	  	return remove(0);
+	}
+	
+	//删除数组的最后一个元素，并返回删除元素
+	public int removeLast(){
+		return remove(size - 1);
+	}
+	
+	//查找数组中是否含有元素e
+	public boolean contains(int e){
+		for(int i = 0 ; i < size ; i ++){
+			if(data[i] == e){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	//查找数组中元素e的索引位置，存在返回索引值，若不存在元素则返回-1
+	public int find(int e){
+		for(int i = 0 ; i < size ; i ++){
+			if(data[i] == e){
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	//从数组中删除元素e
+	public int removeElement(int e){
+		int index = find(e);
+		if(index != -1){
+			remove(index);
+		}
+	}
+}
